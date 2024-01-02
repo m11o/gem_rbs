@@ -57,6 +57,10 @@ module Google
       end
 
       class CollectionReference < Query
+        def collection_id: () -> String
+        def collection_path: () -> String
+        def doc: (String? document_path) -> DocumentReference
+        def add: (Hash[untyped, untyped]? data) -> DocumentReference
       end
 
       class DocumentReference < Query
