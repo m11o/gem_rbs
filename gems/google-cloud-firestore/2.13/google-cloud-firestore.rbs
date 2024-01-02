@@ -4,6 +4,7 @@ module Google
     module Firestore
       type filterable_value = Integer | Float | String | bool | Array[untyped] | Time | StringIO | Datastore::Key | Datastore::Entity
       type operator_options = "<" | "lt" | "<=" | "lte" | ">" | "gt" | ">=" | "gte" | "=" | "==" | "eq" | "eql" | "is" | "!=" | "array_contains" | "array-contains" | "include" | "include?" | "has" | "in" | "not_in" | "not-in" | "array_contains_any" | "array-contains-any"
+      type field_key = FieldPath | String | Symbol
 
       class Client
         attr_accessor service: Service
@@ -81,11 +82,11 @@ module Google
         def listen: { (DocumentSnapshot snapshot) -> untyped } -> DocumentListener
         alias on_snapshot listen
 
-        def create: (Hash[document_key, untyped] data) -> CommitResponse::WriteResult
+        def create: (Hash[field_key, untyped] data) -> CommitResponse::WriteResult
 
-        def set: (Hash[document_key, untyped] data, ?merge: (bool | FieldPath | String | Symbol)?) -> CommitResponse::WriteResult
+        def set: (Hash[field_key, untyped] data, ?merge: (bool | FieldPath | String | Symbol)?) -> CommitResponse::WriteResult
 
-        def update: (Hash[document_key, untyped] data, ?update_time: Time?) -> CommitResponse::WriteResult
+        def update: (Hash[field_key, untyped] data, ?update_time: Time?) -> CommitResponse::WriteResult
 
         def delete: (?exists: bool?, ?update_time: Time?) -> CommitResponse::WriteResult
       end
