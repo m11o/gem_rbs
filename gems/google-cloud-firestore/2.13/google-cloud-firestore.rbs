@@ -49,6 +49,33 @@ module Google
       end
 
       class Query
+        type order_direction = :desc | :asc | "desc" | "asc"
+
+        def select: (field_key | Array[field_key] fields) -> instance
+        def all_dependents: () -> instance
+        def direct_descendants: () -> instance
+
+        def where: (Filter filter) -> instance
+                 | (field_key? field, operator_options? operator, filterable_value? value) -> instance
+
+        def order: (field_key? field, ?order_direction? direction) -> instance
+        alias order_by order
+
+        def offset: (Integer num) -> instance
+        def limit: (Integer num) -> instance
+        def limit_to_last: (Integer num) -> instance
+
+        def start_at: ((DocumentSnapshot | untyped | Array[untyped]) values) -> instance
+        def start_after: ((DocumentSnapshot | untyped | Array[untyped]) values) -> instance
+        def end_before: ((DocumentSnapshot | untyped | Array[untyped]) values) -> instance
+        def end_at: ((DocumentSnapshot | untyped | Array[untyped]) values) -> instance
+
+        def get: (?real_time: Time?) -> Enumerator[DocumentSnapshot, untyped]
+               | (?real_time: Time?) { (DocumentSnapshot document) -> untyped } -> void
+        alias run get
+
+        def listen: { (DocumentSnapshot snapshot) -> untyped } -> DocumentListener
+        alias on_snapshot listen
       end
 
       class Service
