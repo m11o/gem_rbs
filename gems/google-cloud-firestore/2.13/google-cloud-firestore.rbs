@@ -122,6 +122,13 @@ module Google
       end
 
       class FieldPath
+        include Comparable
+
+        def fields: () -> Array[String]
+        def formatted_string: () -> String
+
+        def self.document_id: () -> FieldPath
+        def self.parse: (String dotted_string) -> FieldPath
       end
 
       class Filter
