@@ -69,6 +69,11 @@ module Google
       end
 
       class Filter
+        def and: (Filter filter) -> instance
+               | ((String | Symbol | FieldPath)? field, operator_options? operator, filterable_value? value) -> instance
+
+        def or: (Filter filter) -> instance
+              | ((String | Symbol | FieldPath)? field, operator_options? operator, filterable_value? value) -> instance
       end
 
       class DocumentSnapshot
