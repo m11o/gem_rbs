@@ -1,0 +1,97 @@
+# Write the type definition here!
+module Google
+  module Cloud
+    module Firestore
+      type filterable_value = Integer | Float | String | bool | Array[untyped] | Time | StringIO | Datastore::Key | Datastore::Entity
+      type operator_options = "<" | "lt" | "<=" | "lte" | ">" | "gt" | ">=" | "gte" | "=" | "==" | "eq" | "eql" | "is" | "!=" | "array_contains" | "array-contains" | "include" | "include?" | "has" | "in" | "not_in" | "not-in" | "array_contains_any" | "array-contains-any"
+
+      class Client
+        attr_accessor service: Service
+
+        def self.new: (Service service) -> Client
+
+        def project_id: () -> String
+
+        def database_id: () -> String
+
+        def path: () -> String
+
+        def cols: (?real_time: Time?) ?{ (CollectionReference collection) -> untyped } -> Enumerator[CollectionReference, untyped]
+
+        alias collections cols
+        alias list_collections cols
+
+        def col: (String collection_path) -> CollectionReference
+
+        alias collection col
+
+        def col_group: (String collection_id) -> CollectionGroup
+
+        alias collection_group col_group
+
+        def filter: (String | Symbol | FieldPath field, operator_options operator, filterable_value value) -> Filter
+
+        def doc: (String document_path) -> DocumentReference
+
+        def get_all: (String | DocumentReference | Array[String | DocumentReference] docs, ?field_mask: Array[String | FieldPath]?, ?real_time: Time?) -> Enumerator[DocumentSnapshot, untyped]
+          | (String | DocumentReference | Array[String | DocumentReference] docs, ?field_mask: Array[String | FieldPath]?, ?real_time: Time?) { (DocumentSnapshot document) -> untyped } -> void
+
+        alias get_docs get_all
+        alias get_documents get_all
+        alias find get_all
+
+        def document_id: () -> FieldPath
+
+        def transaction: (?max_retries: Integer?, ?commit_response: bool?) { (Transaction) -> untyped } -> untyped
+
+        def read_only_transaction: (?real_time: Time?) { (Transaction) -> untyped } -> untyped
+      end
+
+      class Query
+      end
+
+      class Service
+      end
+
+      class CollectionReferenceList
+      end
+
+      class CollectionReference < Query
+      end
+
+      class DocumentReference < Query
+      end
+
+      class CollectionGroup < Query
+      end
+
+      class FieldPath
+      end
+
+      class Filter
+      end
+
+      class DocumentSnapshot
+      end
+
+      class FieldValue
+      end
+
+      class Transaction
+      end
+    end
+
+    module Datastore
+      class Key
+      end
+
+      class Entity
+      end
+    end
+  end
+
+  module Auth
+    module Credentials
+    end
+  end
+end
