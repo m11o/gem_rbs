@@ -60,6 +60,30 @@ module Google
       end
 
       class DocumentReference < Query
+        attr_accessor client: Client
+
+        def document_id: () -> String
+        def document_path: () -> String
+
+        def cols: (?real_time: Time?) ?{ (CollectionReference collection) -> untyped } -> Enumerator[CollectionReference, untyped]
+        alias collections cols
+        alias list_collections cols
+
+        def col: (String collection_path) -> CollectionReference
+        alias collection col
+
+        def get: () -> DocumentSnapshot
+
+        def listen: { (DocumentSnapshot snapshot) -> untyped } -> DocumentListener
+        alias on_snapshot listen
+
+        def create: (Hash[document_key, untyped] data) -> CommitResponse::WriteResult
+
+        def set: (Hash[document_key, untyped] data, ?merge: (bool | FieldPath | String | Symbol)?) -> CommitResponse::WriteResult
+
+        def update: (Hash[document_key, untyped] data, ?update_time: Time?) -> CommitResponse::WriteResult
+
+        def delete: (?exists: bool?, ?update_time: Time?) -> CommitResponse::WriteResult
       end
 
       class CollectionGroup < Query
