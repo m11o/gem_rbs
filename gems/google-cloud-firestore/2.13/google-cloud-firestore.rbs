@@ -3,7 +3,9 @@ module Google
   module Cloud
     module Firestore
       type filterable_value = Integer | Float | String | bool | Array[untyped] | Time | StringIO | Datastore::Key | Datastore::Entity
-      type operator_options = "<" | "lt" | "<=" | "lte" | ">" | "gt" | ">=" | "gte" | "=" | "==" | "eq" | "eql" | "is" | "!=" | "array_contains" | "array-contains" | "include" | "include?" | "has" | "in" | "not_in" | "not-in" | "array_contains_any" | "array-contains-any"
+      type operator_options =
+        "<" | "lt" | "<=" | "lte" | ">" | "gt" | ">=" | "gte" | "=" | "==" | "eq" | "eql" | "is" | "!=" | "array_contains" | "array-contains" | "include" | "include?" | "has" | "in" | "not_in" | "not-in" | "array_contains_any" | "array-contains-any" |
+        :< | :lt | :<= | :lte | :> | :gt | :>= | :gte | :== | :eq | :eql | :is | :!= | :array_contains | :include | :include? | :has | :in | :not_in | :array_contains_any
       type field_key = FieldPath | String | Symbol
 
       class Client
@@ -139,6 +141,9 @@ module Google
               | ((String | Symbol | FieldPath)? field, operator_options? operator, filterable_value? value) -> instance
       end
 
+      class QuerySnapshot
+      end
+
       class DocumentSnapshot
       end
 
@@ -146,7 +151,37 @@ module Google
       end
 
       class Transaction
+        def get_all: (String | DocumentReference | Array[String | DocumentReference] docs, ?field_mask: Array[String | FieldPath]?) -> Enumerator[DocumentSnapshot, untyped]
+                   | (String | DocumentReference | Array[String | DocumentReference] docs, ?field_mask: Array[String | FieldPath]?) { (DocumentSnapshot document) -> untyped } -> void
+        alias get_docs get_all
+        alias get_documents get_all
+        alias find get_all
+
+        def get: (DocumentReference obj) ?{ (DocumentSnapshot document) -> untyped } -> DocumentSnapshot
+               | (String | CollectionReference | Query obj) ?{ (DocumentSnapshot document) -> untyped } -> Enumerator[DocumentSnapshot, untyped]
+        alias run get
       end
+
+      class DocumentListener
+      end
+
+      class CommitResponse
+        class WriteResult
+        end
+      end
+
+      def self.new: (
+          ?project_id: String?,
+          ?credentials: (String | Hash[untyped, untyped] | Auth::Credentials)?,
+          ?scope: (String | Array[String])?,
+          ?timeout: Integer?,
+          ?endpoint: String?,
+          ?emulator_host: String?,
+          ?database_id: String?,
+          ?transport: (:grpc | :rest)?,
+          ?project: String?,
+          ?keyfile: String?
+        ) -> Client
     end
 
     module Datastore
